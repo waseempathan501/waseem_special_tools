@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#07152f">
+  <title>WASEEM TOOLKIT</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --cyan: #35e6ff;
+      --blue: #4d8dff;
+      --purple: #a66cff;
+      --pink: #ff62c8;
+      --text: #eef7ff;
+      --muted: #b9cce8;
+      --glass: rgba(255,255,255,.075);
+      --border: rgba(255,255,255,.16);
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(48, 210, 255, .28), transparent 28%),
+        radial-gradient(circle at 88% 22%, rgba(141, 91, 255, .24), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(47, 104, 255, .32), transparent 42%),
+        linear-gradient(145deg, #031126 0%, #081d3c 45%, #15144d 100%);
+      position: relative;
+    }
+
+    /* Smooth water-like animated background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -35%;
+      z-index: -5;
+      background:
+        radial-gradient(ellipse at 30% 30%, rgba(41, 221, 255, .18), transparent 32%),
+        radial-gradient(ellipse at 70% 55%, rgba(117, 79, 255, .17), transparent 35%),
+        radial-gradient(ellipse at 50% 80%, rgba(42, 125, 255, .16), transparent 35%);
+      filter: blur(35px);
+      animation: waterFlow 15s ease-in-out infinite alternate;
+    }
+
+    @keyframes waterFlow {
+      0% { transform: translate3d(-3%, -2%, 0) scale(1); }
+      50% { transform: translate3d(4%, 3%, 0) scale(1.08); }
+      100% { transform: translate3d(-2%, 5%, 0) scale(1.03); }
+    }
+
+    /* Soft cloud layers */
+    .cloud {
+      position: fixed;
+      z-index: -3;
+      width: 180px;
+      height: 55px;
+      border-radius: 100px;
+      background: rgba(255,255,255,.065);
+      filter: blur(10px);
+      opacity: .7;
+      animation: cloudMove linear infinite;
+      pointer-events: none;
+    }
+
+    .cloud::before,
+    .cloud::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    .cloud::before {
+      width: 75px;
+      height: 75px;
+      left: 25px;
+      bottom: 5px;
+    }
+
+    .cloud::after {
+      width: 95px;
+      height: 95px;
+      right: 20px;
+      bottom: 0;
+    }
+
+    .cloud.c1 { top: 13%; left: -220px; animation-duration: 34s; }
+    .cloud.c2 { top: 42%; left: -260px; transform: scale(.72); animation-duration: 44s; animation-delay: -15s; }
+    .cloud.c3 { top: 72%; left: -300px; transform: scale(.55); animation-duration: 52s; animation-delay: -25s; }
+
+    @keyframes cloudMove {
+      from { margin-left: 0; }
+      to { margin-left: calc(100vw + 560px); }
+    }
+
+    /* Tiny floating particles */
+    .particle {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: rgba(120,230,255,.55);
+      box-shadow: 0 0 16px rgba(80,210,255,.8);
+      z-index: -2;
+      animation: floatUp 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .p1 { left: 12%; bottom: 12%; animation-delay: -2s; }
+    .p2 { left: 77%; bottom: 25%; animation-delay: -5s; }
+    .p3 { left: 44%; bottom: 5%; animation-delay: -7s; }
+    .p4 { left: 91%; bottom: 55%; animation-delay: -3s; }
+
+    @keyframes floatUp {
+      0%,100% { transform: translateY(25px); opacity: .2; }
+      50% { transform: translateY(-80px); opacity: .85; }
+    }
+
+    .page {
+      width: min(100%, 980px);
+      margin: 0 auto;
+      padding: 24px 16px 30px;
+    }
+
+    /* Main heading is now directly on the page, not inside a black navbar */
+    .hero {
+      text-align: center;
+      padding: 14px 12px 18px;
+    }
+
+    .logo {
+      width: 76px;
+      height: 76px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 140deg, #28e7ff, #6d68ff, #f64fbf, #28e7ff);
+      box-shadow:
+        0 0 30px rgba(58, 214, 255, .32),
+        inset 0 0 18px rgba(255,255,255,.28);
+      position: relative;
+      animation: logoGlow 4s ease-in-out infinite;
+    }
+
+    .logo::after {
+      content: "";
+      position: absolute;
+      inset: 11px;
+      border-radius: 50%;
+      background: rgba(3,18,43,.42);
+      backdrop-filter: blur(3px);
+    }
+
+    @keyframes logoGlow {
+      50% { transform: scale(1.045); box-shadow: 0 0 42px rgba(91,117,255,.5), inset 0 0 18px rgba(255,255,255,.3); }
+    }
+
+    .hero h1 {
+      font-size: clamp(22px, 7vw, 48px);
+      line-height: 1.05;
+      font-weight: 900;
+      letter-spacing: 2px;
+      white-space: nowrap;
+      margin-bottom: 22px;
+      background: linear-gradient(90deg, #2be5ff, #7190ff, #c35cff, #ff62c8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px rgba(77,141,255,.18);
+    }
+
+    .intro {
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.8;
+    }
+
+    .quotes {
+      margin: 22px auto 28px;
+      max-width: 760px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .quote {
+      padding: 13px 16px;
+      border-left: 2px solid rgba(53,230,255,.75);
+      border-radius: 12px;
+      background: rgba(255,255,255,.045);
+      color: #d9eaff;
+      font-size: 14px;
+      line-height: 1.6;
+      backdrop-filter: blur(10px);
+    }
+
+    .section-title {
+      text-align: center;
+      margin: 10px 0 16px;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: #a8c9ff;
+      text-transform: uppercase;
+    }
+
+    .tools {
+      display: grid;
+      gap: 18px;
+    }
+
+    .tool-card {
+      position: relative;
+      min-height: 245px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.025)),
+        radial-gradient(circle at 15% 20%, rgba(46,218,255,.15), transparent 34%),
+        radial-gradient(circle at 85% 85%, rgba(157,82,255,.16), transparent 38%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.12),
+        0 20px 55px rgba(0,0,0,.18);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+    }
+
+    .tool-card::before {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      left: -100px;
+      top: -120px;
+      border-radius: 50%;
+      background: rgba(39,224,255,.16);
+      filter: blur(35px);
+      animation: cardGlow 7s ease-in-out infinite alternate;
+    }
+
+    .tool-card::after {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      right: -70px;
+      bottom: -80px;
+      border-radius: 50%;
+      background: rgba(170,76,255,.16);
+      filter: blur(30px);
+    }
+
+    @keyframes cardGlow {
+      to { transform: translate(110px, 80px) scale(1.15); }
+    }
+
+    .tool-card:hover {
+      transform: translateY(-7px) scale(1.01);
+      border-color: rgba(80,224,255,.38);
+      box-shadow: 0 24px 65px rgba(17,105,190,.22), inset 0 1px 0 rgba(255,255,255,.16);
+    }
+
+    .tool-icon {
+      font-size: 62px;
+      line-height: 1;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 0 15px rgba(66,210,255,.3));
+      z-index: 1;
+    }
+
+    .tool-card h2 {
+      z-index: 1;
+      font-size: clamp(23px, 6vw, 34px);
+      letter-spacing: .7px;
+      background: linear-gradient(90deg, #31dfff, #8b8eff, #e05fc8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .tool-card p {
+      z-index: 1;
+      color: #c5d4e8;
+      font-size: 15px;
+    }
+
+    .tap {
+      margin-top: 16px;
+      padding: 8px 17px;
+      border: 1px solid rgba(94,218,255,.2);
+      border-radius: 999px;
+      color: #aeeeff;
+      background: rgba(36,193,255,.07);
+      font-size: 12px;
+      letter-spacing: 1px;
+      z-index: 1;
+    }
+
+    .channel {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin: 24px auto 0;
+      padding: 12px 20px;
+      border-radius: 999px;
+      color: #dff8ff;
+      text-decoration: none;
+      border: 1px solid rgba(56,221,255,.28);
+      background: rgba(33,192,255,.08);
+      box-shadow: 0 0 25px rgba(31,184,255,.09);
+      transition: .3s ease;
+    }
+
+    .channel:hover {
+      transform: translateY(-2px);
+      background: rgba(33,192,255,.14);
+    }
+
+    footer {
+      text-align: center;
+      padding: 58px 10px 12px;
+    }
+
+    footer .developer {
+      font-size: clamp(25px, 7vw, 38px);
+      font-weight: 900;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, #5793ff, #9b6cff, #e052ca);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 25px rgba(111,102,255,.15);
+    }
+
+    footer .small {
+      margin-top: 10px;
+      color: #829ac0;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    @media (min-width: 700px) {
+      .page { padding-top: 42px; }
+      .hero { padding-top: 20px; }
+      .tools { grid-template-columns: minmax(0, 1fr); }
+      .tool-card { min-height: 270px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="cloud c1"></div>
+  <div class="cloud c2"></div>
+  <div class="cloud c3"></div>
+
+  <div class="particle p1"></div>
+  <div class="particle p2"></div>
+  <div class="particle p3"></div>
+  <div class="particle p4"></div>
+
+  <main class="page">
+    <header class="hero">
+      <h1>WASEEM TOOLKIT</h1>
+
+      <p class="intro">
+        Welcome to Waseem Toolkit — a clean, fast and modern collection of useful tools.
+        Keep learning, keep exploring, and keep building something better every day.
+      </p>
+    </header>
+
+    <div class="section-title">Available Tool</div>
+
+    <section class="tools">
+      <a class="tool-card"
+         href="https://waseemkhan.kesug.com/view.php?site=free-fire-info"
+         target="_blank"
+         rel="noopener noreferrer"
+         aria-label="Open Free Fire Player Info">
+        <div class="tool-icon">💎</div>
+        <h2>FREE FIRE PLAYER INFO</h2>
+        <p>Tap to explore</p>
+        <span class="tap">OPEN TOOL →</span>
+      </a>
+    </section>
+
+    <div style="text-align:center;">
+      <a class="channel"
+         href="https://whatsapp.com/channel/0029VbD4m3ZFCCoWbOzY3x2S"
+         target="_blank"
+         rel="noopener noreferrer">
+        💬 Join WhatsApp Channel
+      </a>
+    </div>
+
+    <footer>
+      <div class="developer">DEVELOPER WASEEM KHAN</div>
+      <div class="small">WASEEM TOOLKIT • KEEP LEARNING • KEEP BUILDING</div>
+    </footer>
+  </main>
+</body>
+</html>
